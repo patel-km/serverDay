@@ -1,33 +1,34 @@
-// Require/import the HTTP module
 var http = require("http");
 
-// Define a port to listen for incoming requests. NOT the same port you use to make a database.
 var PORT_ONE= 7000;
 var PORT_TWO = 7500;
 
-// Create a generic walmart greeter function to handle requests and responses
-function handleRequest(request, response) {
+var nice = ["You are so loved!", "Wow, great smile :)", "You are a ray of sunshine", "What a pure soul you have", "Thanks for being so kind <3"];
+var mean = ["Y u so mean...", "I guess you're having a bad day", "Looks like trouble :(", "You're not yourself when you're hungry",];
 
-  // Send the below string to the client when the user visits the PORT URL. Reply from walmart greeter.
-  response.end("It Works!! Path Hit: " + request.url);
+var nicePhrase = nice[Math.floor(Math.random() * nice.length)];
+var meanPhrase = mean[Math.floor(Math.random() * mean.length)];
+
+var serverOne = http.createServer(handleRequestOne);
+var serverTwo = http.createServer(handleRequestTwo);
+
+
+// Handles the request of the listener.
+function handleRequestOne(request, response) {
+  response.end(nicePhrase);
+}
+
+function handleRequestTwo(request, response) {
+  response.end(meanPhrase);
 }
 
 
-
-// Use the Node HTTP package to create our server.
-// Pass the handleRequest function to empower it with functionality.
-var serverOne = http.createServer(handleRequest);
-var serverTwo = http.createServer(handleRequest);
-
-// Start our server so that it can begin listening to client requests.
+// Listens to the port.
 serverOne.listen(PORT_ONE, function() {
-
-  // Log (server-side) when our server has started
-  console.log("You are so loved!");
+  console.log("listening on port 1");
 });
 
 serverTwo.listen(PORT_TWO, function() {
-
-  console.log("Y u so mean...");
+  console.log("listening on port 2");
 });
 
